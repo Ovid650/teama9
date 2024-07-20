@@ -1,0 +1,100 @@
+using System;
+using System.Linq;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+public class Customer
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+
+public class Order
+{
+    public int Id { get; set; }
+    public int CustomerId { get; set; }
+    public List<int> ProductIds { get; set; }
+    public DateTime OrderDate { get; set; }
+}
+
+
+public class Database<T> where T : class
+{
+    private readonly List<T> _items = new List<T>();
+
+    public void Add(T item)
+    {
+        _items.Add(item);
+    }
+
+    public List<T> GetAll()
+    {
+        return _items;
+    }
+
+    public T GetById(int id)
+    {
+        var propertyInfo = typeof(T).GetProperty("Id");
+        return _items.FirstOrDefault(item => (int)propertyInfo.GetValue(item) == id);
+    }
+
+    public void Delete(int id)
+    {
+        var item = GetById(id);
+        if (item != null)
+        {
+            _items.Remove(item);
+        }
+    }
+}
+
+
+class Program
+{
+    static void Main()
+    {
+        var productDatabase = new Database<Product>();
+        var customerDatabase = new Database<Customer>();
+        var orderDatabase = new Database<Order>();
+
+        var product = new Product { Id = 1, Name = "Laptop", Price = 999.99M };
+        var customer = new Customer { Id = 1, Name = "John Doe", Email = "john.doe@example.com" };
+        var order = new Order { Id = 1, CustomerId = 1, ProductIds = new List<int> { 1 }, OrderDate = DateTime.Now };
+
+        productDatabase.Add(product);
+        customerDatabase.Add(customer);
+        orderDatabase.Add(order);
+
+        Console.WriteLine("Products:");
+        foreach (var p in productDatabase.GetAll())
+        {
+            Console.WriteLine($"Id: {p.Id}, Name: {p.Name}, Price: {p.Price}");
+        }
+
+        Console.WriteLine("\nCustomers:");
+        foreach (var c in customerDatabase.GetAll())
+        {
+            Console.WriteLine($"Id: {c.Id}, Name: {c.Name}, Email: {c.Email}");
+        }
+
+        Console.WriteLine("\nOrders:");
+        foreach (var o in orderDatabase.GetAll())
+        {
+            Console.WriteLine($"Id: {o.Id}, CustomerId: {o.CustomerId}, OrderDate: {o.OrderDate}");
+        }
+
+        customerDatabase.Delete(1);
+
+        Console.WriteLine("\nUpdated Customers:");
+        foreach (var c in customerDatabase.GetAll())
+        {
+            Console.WriteLine($"Id: {c.Id}, Name: {c.Name}, Email: {c.Email}");
+        }
+    }
+}
