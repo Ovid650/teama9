@@ -1,0 +1,46 @@
+using System;
+
+public class MathOperations<T> where T : struct, IComparable, IConvertible, IEquatable<T>
+{
+    public T Add(T a, T b)
+    {
+        return (dynamic)a + (dynamic)b;
+    }
+
+    public T Subtract(T a, T b)
+    {
+        return (dynamic)a - (dynamic)b;
+    }
+
+    public T Multiply(T a, T b)
+    {
+        return (dynamic)a * (dynamic)b;
+    }
+
+    public T Divide(T a, T b)
+    {
+        if ((dynamic)b == 0)
+        {
+            throw new ArgumentException("Divisor cannot be zero.");
+        }
+        return (dynamic)a / (dynamic)b;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var mathOperationsInt = new MathOperations<int>();
+        Console.WriteLine("Sum: " + mathOperationsInt.Add(10, 5));
+        Console.WriteLine("Difference: " + mathOperationsInt.Subtract(10, 5));
+        Console.WriteLine("Product: " + mathOperationsInt.Multiply(10, 5));
+        Console.WriteLine("Quotient: " + mathOperationsInt.Divide(10, 5));
+
+        var mathOperationsDouble = new MathOperations<double>();
+        Console.WriteLine("Sum: " + mathOperationsDouble.Add(10.5, 5.3));
+        Console.WriteLine("Difference: " + mathOperationsDouble.Subtract(10.5, 5.3));
+        Console.WriteLine("Product: " + mathOperationsDouble.Multiply(10.5, 5.3));
+        Console.WriteLine("Quotient: " + mathOperationsDouble.Divide(10.5, 5.3));
+    }
+}
