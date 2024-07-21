@@ -4,26 +4,58 @@ public class MathOperations<T> where T : struct, IComparable, IConvertible, IEqu
 {
     public T Add(T a, T b)
     {
-        return (dynamic)a + (dynamic)b;
+        try
+        {
+            return (dynamic)a + (dynamic)b;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in Add operation: {ex.Message}");
+            throw;
+        }
     }
 
     public T Subtract(T a, T b)
     {
-        return (dynamic)a - (dynamic)b;
+        try
+        {
+            return (dynamic)a - (dynamic)b;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in Subtract operation: {ex.Message}");
+            throw;
+        }
     }
 
     public T Multiply(T a, T b)
     {
-        return (dynamic)a * (dynamic)b;
+        try
+        {
+            return (dynamic)a * (dynamic)b;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in Multiply operation: {ex.Message}");
+            throw;
+        }
     }
 
     public T Divide(T a, T b)
     {
-        if ((dynamic)b == 0)
+        try
         {
-            throw new ArgumentException("Divisor cannot be zero.");
+            if ((dynamic)b == 0)
+            {
+                throw new ArgumentException("Divisor cannot be zero.");
+            }
+            return (dynamic)a / (dynamic)b;
         }
-        return (dynamic)a / (dynamic)b;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in Divide operation: {ex.Message}");
+            throw;
+        }
     }
 }
 
@@ -32,15 +64,49 @@ class Program
     static void Main()
     {
         var mathOperationsInt = new MathOperations<int>();
-        Console.WriteLine("Sum: " + mathOperationsInt.Add(10, 5));
-        Console.WriteLine("Difference: " + mathOperationsInt.Subtract(10, 5));
-        Console.WriteLine("Product: " + mathOperationsInt.Multiply(10, 5));
-        Console.WriteLine("Quotient: " + mathOperationsInt.Divide(10, 5));
+
+        try
+        {
+            Console.WriteLine("Enter first integer:");
+            int a = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter second integer:");
+            int b = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Sum: " + mathOperationsInt.Add(a, b));
+            Console.WriteLine("Difference: " + mathOperationsInt.Subtract(a, b));
+            Console.WriteLine("Product: " + mathOperationsInt.Multiply(a, b));
+            Console.WriteLine("Quotient: " + mathOperationsInt.Divide(a, b));
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine($"Error: Input was not a valid integer. {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in integer operations: {ex.Message}");
+        }
 
         var mathOperationsDouble = new MathOperations<double>();
-        Console.WriteLine("Sum: " + mathOperationsDouble.Add(10.5, 5.3));
-        Console.WriteLine("Difference: " + mathOperationsDouble.Subtract(10.5, 5.3));
-        Console.WriteLine("Product: " + mathOperationsDouble.Multiply(10.5, 5.3));
-        Console.WriteLine("Quotient: " + mathOperationsDouble.Divide(10.5, 5.3));
+
+        try
+        {
+            Console.WriteLine("Enter first double:");
+            double a = double.Parse(Console.ReadLine());
+            Console.WriteLine("Enter second double:");
+            double b = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Sum: " + mathOperationsDouble.Add(a, b));
+            Console.WriteLine("Difference: " + mathOperationsDouble.Subtract(a, b));
+            Console.WriteLine("Product: " + mathOperationsDouble.Multiply(a, b));
+            Console.WriteLine("Quotient: " + mathOperationsDouble.Divide(a, b));
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine($"Error: Input was not a valid double. {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in double operations: {ex.Message}");
+        }
     }
 }
