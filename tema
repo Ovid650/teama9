@@ -4,58 +4,26 @@ public class MathOperations<T> where T : struct, IComparable, IConvertible, IEqu
 {
     public T Add(T a, T b)
     {
-        try
-        {
-            return (dynamic)a + (dynamic)b;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in Add operation: {ex.Message}");
-            throw;
-        }
+        return (dynamic)a + (dynamic)b;
     }
 
     public T Subtract(T a, T b)
     {
-        try
-        {
-            return (dynamic)a - (dynamic)b;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in Subtract operation: {ex.Message}");
-            throw;
-        }
+        return (dynamic)a - (dynamic)b;
     }
 
     public T Multiply(T a, T b)
     {
-        try
-        {
-            return (dynamic)a * (dynamic)b;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in Multiply operation: {ex.Message}");
-            throw;
-        }
+        return (dynamic)a * (dynamic)b;
     }
 
     public T Divide(T a, T b)
     {
-        try
+        if ((dynamic)b == 0)
         {
-            if ((dynamic)b == 0)
-            {
-                throw new ArgumentException("Divisor cannot be zero.");
-            }
-            return (dynamic)a / (dynamic)b;
+            throw new ArgumentException("Divisor cannot be zero.");
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error in Divide operation: {ex.Message}");
-            throw;
-        }
+        return (dynamic)a / (dynamic)b;
     }
 }
 
@@ -91,14 +59,14 @@ class Program
         try
         {
             Console.WriteLine("Enter first double:");
-            double a = double.Parse(Console.ReadLine());
+            double c = double.Parse(Console.ReadLine());
             Console.WriteLine("Enter second double:");
-            double b = double.Parse(Console.ReadLine());
+            double d = double.Parse(Console.ReadLine());
 
-            Console.WriteLine("Sum: " + mathOperationsDouble.Add(a, b));
-            Console.WriteLine("Difference: " + mathOperationsDouble.Subtract(a, b));
-            Console.WriteLine("Product: " + mathOperationsDouble.Multiply(a, b));
-            Console.WriteLine("Quotient: " + mathOperationsDouble.Divide(a, b));
+            Console.WriteLine("Sum: " + mathOperationsDouble.Add(c, d));
+            Console.WriteLine("Difference: " + mathOperationsDouble.Subtract(c, d));
+            Console.WriteLine("Product: " + mathOperationsDouble.Multiply(c, d));
+            Console.WriteLine("Quotient: " + mathOperationsDouble.Divide(c, d));
         }
         catch (FormatException ex)
         {
